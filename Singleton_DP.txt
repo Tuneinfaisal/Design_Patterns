@@ -1,0 +1,43 @@
+package com.techprimers.designpatterns.singleton;
+
+//Singleton Class
+public class Singleton {
+
+    private static volatile Singleton instance = null;
+
+    private Singleton() {
+    }
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+-----
+  
+package com.techprimers.designpatterns.singleton;
+
+public class SingletonExample {
+
+    public static void main(String[] args) {
+
+        Singleton instance = Singleton.getInstance();
+        System.out.println(instance);
+        Singleton secondInstance = Singleton.getInstance();
+        System.out.println(secondInstance);
+
+        /*
+        Examples of Singleton in general usage:
+        1. Runtime.getRuntime()
+        2. Spring Beans
+        3. Logger
+         */
+
+    }
+}

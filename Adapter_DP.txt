@@ -1,0 +1,92 @@
+package com.techprimers.designpatterns.adapter;
+
+public class AdapterExample {
+
+    public static void main(String[] args) {
+
+        AndroidCharger androidCharger = new AndroidCharger();
+        AndroidPhone androidPhone = new OnePlus5();
+        androidCharger.charge(androidPhone);
+
+        IPhoneCharger iPhoneCharger = new IPhoneCharger();
+        IPhone iPhone = new IPhoneX();
+        iPhoneCharger.charge(iPhone);
+
+        AndroidToIPhoneAdapter adapter = new AndroidToIPhoneAdapter(androidPhone);
+        iPhoneCharger.charge(adapter);
+
+
+    }
+}
+---------------
+
+package com.techprimers.designpatterns.adapter;
+
+public class AndroidCharger {
+    public void charge(AndroidPhone androidPhone) {
+        androidPhone.charge();
+    }
+}
+
+-------------
+
+package com.techprimers.designpatterns.adapter;
+
+public interface AndroidPhone {
+    void charge();
+}
+
+--------------
+
+package com.techprimers.designpatterns.adapter;
+
+public class AndroidToIPhoneAdapter implements IPhone {
+
+    AndroidPhone androidPhone;
+
+    public AndroidToIPhoneAdapter(AndroidPhone androidPhone) {
+        this.androidPhone = androidPhone;
+    }
+
+    public void charge() {
+        androidPhone.charge();
+    }
+}
+
+---------------------
+package com.techprimers.designpatterns.adapter;
+
+public interface IPhone {
+    void charge();
+}
+
+------------
+
+package com.techprimers.designpatterns.adapter;
+
+public class IPhoneCharger {
+
+    public void charge(IPhone iPhone){
+        iPhone.charge();
+    }
+}
+
+---------------
+package com.techprimers.designpatterns.adapter;
+
+public class IPhoneX implements IPhone {
+    public void charge() {
+        System.out.println("Charging IPhone X");
+    }
+}
+
+---------------
+
+package com.techprimers.designpatterns.adapter;
+
+public class OnePlus5 implements AndroidPhone {
+    public void charge() {
+        System.out.println("Charging OP5");
+    }
+}
+

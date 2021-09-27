@@ -1,0 +1,156 @@
+package com.techprimers.designpatterns.abstractfactory;
+
+public class AbstractFactoryExample {
+
+    public static void main(String[] args) {
+
+
+        OSFactory factory = AbstractPhoneFactory.getFactory(OSType.ANDROID);
+        Phone pixelPhone = factory.create(ManufacturerType.GOOGLE);
+        pixelPhone.display();
+
+        OSFactory wfactory = AbstractPhoneFactory.getFactory(OSType.WINDOWS);
+        Phone nokiaPhone = wfactory.create(ManufacturerType.MICROSOFT);
+        nokiaPhone.display();
+
+        /**
+         * DocumentBuilderFactory
+         */
+
+    }
+}
+--------------------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public abstract class AbstractPhoneFactory {
+
+    //WindowsFactory
+    //AndroidFactory
+    //OSFactory
+
+
+    public static OSFactory getFactory(OSType osType) {
+
+        switch (osType) {
+            case ANDROID:
+                return new AndroidFactory();
+            case WINDOWS:
+                return new WindowsFactory();
+            default:
+                return null;
+        }
+    }
+}
+
+-----------
+
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public class AndroidFactory implements OSFactory {
+
+    public Phone create(ManufacturerType manufacturerType) {
+        switch (manufacturerType) {
+            case GOOGLE:
+                return new GooglePhone();
+            case ONEPLUS:
+                return new OnePlus5T();
+
+                default:
+                    return null;
+        }
+    }
+}
+
+-------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public class GooglePhone implements Phone {
+
+    public void display() {
+        System.out.println("Google Pixel 2");
+    }
+}
+
+
+-----------------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public class LenovoPhone implements Phone {
+    public void display() {
+        System.out.println("Lenovo K5 Note");
+    }
+}
+
+-------------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public enum ManufacturerType {
+
+    LENOVO,
+    GOOGLE,
+    ONEPLUS,
+    MICROSOFT
+}
+
+------------------------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public class MicrosoftPhone implements Phone {
+    public void display() {
+        System.out.println("Nokia 3");
+    }
+}
+
+
+--------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+import com.techprimers.designpatterns.factory.PhoneType;
+
+public interface OSFactory {
+
+    Phone create(ManufacturerType manufacturerType);
+}
+
+----------------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public class OnePlus5T implements Phone {
+    public void display() {
+        System.out.println("OnePlus 5T");
+    }
+}
+
+-----------------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public interface Phone {
+    void display();
+}
+
+----------------
+
+package com.techprimers.designpatterns.abstractfactory;
+
+public class WindowsFactory implements OSFactory {
+    public Phone create(ManufacturerType manufacturerType) {
+
+        switch (manufacturerType) {
+            case LENOVO:
+                return new LenovoPhone();
+            case MICROSOFT:
+                return new MicrosoftPhone();
+            default:
+                return null;
+        }
+    }
+}

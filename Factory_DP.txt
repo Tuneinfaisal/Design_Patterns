@@ -1,0 +1,166 @@
+package com.techprimers.designpatterns.factory;
+
+public class AndroiProcessor implements Specification {
+    public void description() {
+        System.out.println("Snapdragon 625");
+    }
+}
+
+------------
+
+package com.techprimers.designpatterns.factory;
+
+public class AndroidCamera implements Specification {
+    public void description() {
+        System.out.println("12 MP Camera");
+    }
+}
+
+--------------
+
+package com.techprimers.designpatterns.factory;
+
+public class AndroidPanel implements Specification {
+    public void description() {
+        System.out.println("Sandstone finish");
+    }
+
+
+}
+-------------------
+
+package com.techprimers.designpatterns.factory;
+
+public class AndroidPhone extends Phone {
+
+    protected void createPhone() {
+        specifications.add(new AndroidCamera());
+        specifications.add(new AndroidPanel());
+        specifications.add(new AndroiProcessor());
+    }
+}
+--------------------
+
+package com.techprimers.designpatterns.factory;
+
+public class FactoryExample {
+
+
+    public static void main(String[] args) {
+
+
+        Phone android = PhoneFactory.getPhone(PhoneType.ANDROID);
+        Phone iphone = PhoneFactory.getPhone(PhoneType.IPHONE);
+        Phone iphone2 = PhoneFactory.getPhone(PhoneType.IPHONE);
+
+        System.out.println(android);
+        System.out.println(iphone);
+        System.out.println(iphone2);
+
+        /*
+        1. Calendar
+        2. NumberFormat
+         */
+    }
+}
+----------
+
+package com.techprimers.designpatterns.factory;
+
+public class IPhone extends Phone {
+    protected void createPhone() {
+        specifications.add(new IPhoneCamera());
+        specifications.add(new IPhonePanel());
+        specifications.add(new IPhoneProcessor());
+    }
+}
+----------
+
+package com.techprimers.designpatterns.factory;
+
+public class IPhoneCamera implements Specification {
+    public void description() {
+        System.out.println("16MP");
+    }
+}
+-----------------
+package com.techprimers.designpatterns.factory;
+
+public class IPhonePanel implements Specification {
+    public void description() {
+        System.out.println("Wireless chargeglass panel");
+    }
+}
+------------
+
+package com.techprimers.designpatterns.factory;
+
+public class IPhoneProcessor implements Specification {
+    public void description() {
+        System.out.println("A10 Chip");
+    }
+}
+
+--------------
+
+package com.techprimers.designpatterns.factory;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Phone {
+
+    protected List<Specification> specifications = new ArrayList<Specification>();
+
+    public Phone() {
+        createPhone();
+    }
+
+    protected abstract void createPhone();
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Phone{");
+        sb.append("specifications=").append(specifications);
+        sb.append('}');
+        return sb.toString();
+    }
+}
+-------------------
+
+package com.techprimers.designpatterns.factory;
+
+public class PhoneFactory {
+
+    public static Phone getPhone(PhoneType phoneType) {
+        switch (phoneType) {
+            case ANDROID:
+                return new AndroidPhone();
+            case IPHONE:
+                return new IPhone();
+            default:
+                return null;
+        }
+    }
+}
+
+-------------------
+
+package com.techprimers.designpatterns.factory;
+
+public enum  PhoneType {
+    ANDROID,
+    IPHONE
+}
+
+-------------
+
+package com.techprimers.designpatterns.factory;
+
+public interface Specification {
+
+     void description();
+
+}
+
+----------------
